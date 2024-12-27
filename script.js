@@ -38,7 +38,7 @@ function onAddItemSubmit(e) {
 
     // See if it is empty
     if (newItem === '') {
-        alert('Please enter Item');
+        alert('Du har inte lagt till någon vara.');
         return;
     }
     
@@ -52,7 +52,7 @@ function onAddItemSubmit(e) {
 
     } else {
         if (checkIfItemExists(newItem)) {
-            alert('Item already exists.');
+            alert('Varan finns redan');
             return;
         }
     }
@@ -158,7 +158,7 @@ function setItemToEdit(target) {
 
     target.classList.add('edit-mode');
 
-    formBtn.innerHTML = '<i class="fa-solid fa-pen" ></i> Update Item';
+    formBtn.innerHTML = '<i class="fa-solid fa-pen" ></i> Uppdatera vara';
     formBtn.style.backgroundColor = '#228B22';
 
     itemInput.value = target.textContent;
@@ -195,7 +195,7 @@ function removeItemFromStorage(item) {
 
 
 function clearItems() {
-    if (confirm('Are you sure you want to delete all items ?')) {
+    if (confirm('Är du säker på att du vill ta bort alla varor?')) {
         while (itemList.firstChild) {
             itemList.removeChild(itemList.firstChild);
         }
@@ -221,7 +221,7 @@ function checkUI() {
     }
 
     isEditmode = false;
-    formBtn.innerHTML = '<i class="fa-solid fa-plus" ></i> Add Item';
+    formBtn.innerHTML = '<i class="fa-solid fa-plus" ></i> Lägg till vara';
     formBtn.style.backgroundColor = '#333';
 
 
