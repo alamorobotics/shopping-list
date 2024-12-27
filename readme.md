@@ -1,3 +1,3 @@
 # Shopping List
 
-Simple Shopping List App from Moderj JS class.
+Simple Shopping List App from Modern JS class
