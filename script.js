@@ -3,6 +3,8 @@ const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
+const formBtn = itemForm.querySelector('button');
+let isEditmode = false;
 
 
 function displayItems() {
@@ -22,9 +24,7 @@ function filterItems(e) {
         } else {
             item.style.display = 'none';
         }
-        
     })
-
 
     console.log(text);
 }
@@ -42,6 +42,21 @@ function onAddItemSubmit(e) {
         return;
     }
     
+    // Check for Edit Mode
+    if (isEditmode) {
+        const itemToEdit = itemList.querySelector('.edit-mode');
+        removeItemFromStorage(itemToEdit.textContent)
+        itemToEdit.classList.remove('edit-mode');
+        itemToEdit.remove();
+        isEditmode = false;
+
+    } else {
+        if (checkIfItemExists(newItem)) {
+            alert('Item already exists.');
+            return;
+        }
+    }
+
     // Create Item in DOM
     addItemToDOM(newItem);
 
@@ -49,7 +64,6 @@ function onAddItemSubmit(e) {
     addItemToStorage(newItem);
 
     checkUI();
-
 }
 
 function addItemToDOM(newItem) {
@@ -126,7 +140,28 @@ function createIcon(iconClass) {
 function onClickItem(e) {
     if (e.target.parentElement.classList.contains('remove-item')) {
         removeItem(e.target.parentElement.parentElement);
+    } else {
+        setItemToEdit(e.target);
     }
+}
+
+function checkIfItemExists(item) {
+    const itemsFromStorage = getItemsFromStorage();
+
+    return itemsFromStorage.includes(item);
+}
+
+function setItemToEdit(target) {
+    isEditmode = true;
+    
+    itemList.querySelectorAll('li').forEach((i) => i.classList.remove('edit-mode'));
+
+    target.classList.add('edit-mode');
+
+    formBtn.innerHTML = '<i class="fa-solid fa-pen" ></i> Update Item';
+    formBtn.style.backgroundColor = '#228B22';
+
+    itemInput.value = target.textContent;
 
 }
 
@@ -173,6 +208,9 @@ function clearItems() {
 }
 
 function checkUI() {
+
+    itemInput.value = '';
+
     const items = itemList.querySelectorAll('li');
     if (items.length === 0) {
         clearBtn.style.display = 'none';
@@ -181,6 +219,12 @@ function checkUI() {
         clearBtn.style.display = 'block';
         itemFilter.style.display = 'block';
     }
+
+    isEditmode = false;
+    formBtn.innerHTML = '<i class="fa-solid fa-plus" ></i> Add Item';
+    formBtn.style.backgroundColor = '#333';
+
+
 }
 
 // Initialize App
